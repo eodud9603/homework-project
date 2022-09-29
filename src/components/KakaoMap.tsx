@@ -1,6 +1,6 @@
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import React, { useEffect, useRef } from 'react';
-import { centerData, clickData, polygonVar } from '../apollo/cache';
+import { centerData, clickData, polygonVar } from 'apollo/cache';
 
 interface AdministrativeDistrictProp {
   id:number;

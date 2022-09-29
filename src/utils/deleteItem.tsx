@@ -1,4 +1,4 @@
-import { clickData, ClickData, polygonVar } from '../apollo/cache';
+import { clickData, ClickData, polygonVar } from 'apollo/cache';
 
 export const deleteItem = (e:ClickData) => {
   clickData(clickData().filter(data => data.id !== e.id));

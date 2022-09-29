@@ -1,5 +1,5 @@
-import { clickData, polygonVar, SaveData, updateData } from '../apollo/cache';
 import { Dispatch, SetStateAction } from 'react';
+import { clickData, polygonVar, SaveData, updateData } from 'apollo/cache';
 
 export const updateGroupList = (group: SaveData,setMode:Dispatch<SetStateAction<string>>) => {
   updateData(group);

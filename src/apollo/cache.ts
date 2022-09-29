@@ -23,6 +23,7 @@ interface PolygonVar {
 interface ModalState {
   type: string | 'add';
   status: boolean | false;
+  prev?:string | 'add';
 }
 export const cache = new InMemoryCache();
 
@@ -34,4 +35,4 @@ export const updateData = makeVar<UpdateData>({id:'',title:'',data:[]});
 export const polygonVar = makeVar<PolygonVar[]>([]);
 export const centerData = makeVar<number[]>([127.055326, 37.510135]);
 //모달
-export const modalState = makeVar<ModalState>({type:'add',status:false});
+export const modalState = makeVar<ModalState>({type:'add',status:false,prev:'add'});

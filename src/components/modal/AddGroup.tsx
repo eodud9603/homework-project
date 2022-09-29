@@ -1,29 +1,17 @@
-import React, { useRef } from 'react';
+import React, { SetStateAction, useRef } from 'react';
+
 import { useReactiveVar } from '@apollo/client';
-import { clickData, modalState, polygonVar, saveData, updateData } from '../../apollo/cache';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
-import { handleAddGroup } from '../../utils/handleAddGroup';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 300,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  textAlign:'center',
-  borderRadius:2,
-  p: 2,
-};
+import { modalState } from 'apollo/cache';
+import { handleAddGroup } from 'utils/handleAddGroup';
 
-const AddGroup = () => {
+const AddGroup = (props:{setMode:React.Dispatch<SetStateAction<string>>}) => {
   const ModalState = useReactiveVar(modalState);
   const groupName = useRef<string>('');
 
@@ -48,7 +36,7 @@ const AddGroup = () => {
           </Wrapper>
           <Wrapper>
             <Button variant="text" onClick={handleClose}>취소</Button>
-            <Button variant="text" onClick={() => handleAddGroup(groupName)}>{ModalState.type === 'add' ? '등록' : '수정'}</Button>
+            <Button variant="text" onClick={() => handleAddGroup(groupName, props.setMode)}>{ModalState.type === 'add' ? '등록' : '수정'}</Button>
           </Wrapper>
         </Box>
       </Modal>
@@ -56,8 +44,21 @@ const AddGroup = () => {
   );
 };
 
+export default AddGroup;
 
-
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  textAlign:'center',
+  borderRadius:2,
+  p: 2,
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,5 +67,3 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   margin: 5px;
 `;
-
-export default AddGroup;

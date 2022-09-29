@@ -1,4 +1,4 @@
-import { clickData, polygonVar, SaveData, updateData } from '../apollo/cache';
+import { clickData, polygonVar, SaveData, updateData } from 'apollo/cache';
 import { Dispatch, SetStateAction } from 'react';
 
 export const deleteItemList = (setMode:Dispatch<SetStateAction<string>>) => {

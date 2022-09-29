@@ -1,4 +1,4 @@
-import { clickData, modalState } from '../apollo/cache';
+import { clickData, modalState } from 'apollo/cache';
 
 export const handleGroupControl = (mode:string) => {
     if(clickData().length > 0) {
