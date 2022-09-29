@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { InputBase } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 
@@ -31,28 +30,24 @@ const Wrapper = styled.div`
   margin: 5px;
 `;
 
-//TODO :: 코드 정리 ,css 수정 , 수정 모달 시 그룹이름 표기
 const AddGroup = () => {
   const ModalState = useReactiveVar(modalState);
   const groupName = useRef<string>('');
 
   const handleClose = () => {
     modalState({ ...modalState(),status:false });
-    console.log(saveData() );
   };
 
   const handleAddGroup = () => {
-    if(groupName.current == '') {
+    if(groupName.current.trim() == '') {
       alert('그룹이름을 입력해주세요 !');
       return;
     };
     if(updateData()?.id && modalState().type === 'update') {
-      console.log('11 :: ',saveData());
         const saveArr = Array.from(saveData());
         let saveArrIndex = saveData().findIndex(e=>e.id === updateData().id);
         saveArr[saveArrIndex].data = clickData();
         saveArr[saveArrIndex].title = groupName.current;
-        console.log('22 :: ',saveArr);
         saveData([...saveArr]);
       } else saveData([...saveData(),{id: new Date() + Math.random().toString(),title:groupName.current,data:clickData() }]);
       polygonVar().forEach(e => {
@@ -60,7 +55,7 @@ const AddGroup = () => {
       });
       clickData([]);
       groupName.current = '';
-      updateData({id:undefined,title:undefined,data:[]});
+      updateData({ data: [], id: '', title: '' });
       modalState({ type:'add',status:false });
       localStorage.setItem('saveData',JSON.stringify(saveData()));
   };
