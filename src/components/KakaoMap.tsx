@@ -1,5 +1,5 @@
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { centerData, clickData, polygonVar } from '../apollo/cache';
 
 interface AdministrativeDistrictProp {
@@ -9,11 +9,6 @@ interface AdministrativeDistrictProp {
 }
 interface AdministrativeDistrictProps {
   administrativeDistrictsByCenter: AdministrativeDistrictProp[];
-}
-interface DisplayArea {
-  id:number,
-  name:string,
-  coordinates : any
 }
 
 const GET_PATH = (point: string) =>  gql`
@@ -27,9 +22,9 @@ const GET_PATH = (point: string) =>  gql`
         region
 }}
 `;
-const Width = innerWidth;
+
 export const KakaoMap = () => {
-  const { loading, error, data } = useQuery<AdministrativeDistrictProps>(GET_PATH(JSON.stringify(useReactiveVar(centerData))));
+  const { data } = useQuery<AdministrativeDistrictProps>(GET_PATH(JSON.stringify(useReactiveVar(centerData))));
   const map = useRef<any>();
   useEffect(() => {
     const mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -81,9 +76,6 @@ export const KakaoMap = () => {
           clickData(clickData().filter((data,index) => index !== clickDataIndex));
           polygon.setOptions({fillColor: '#DAE5EC'});
         }
-        // if(clickData().findIndex(e=>e.id === id) < 0) clickData([...clickData(),{id:id,name:name}])
-        // polygon.setOptions({fillColor: '#FE5500'});
-
       });
     }
 

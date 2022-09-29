@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useReactiveVar } from '@apollo/client';
 import { clickData, modalState, polygonVar, saveData, updateData } from '../../apollo/cache';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
+import { handleAddGroup } from '../../utils/handleAddGroup';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,42 +23,12 @@ const style = {
   p: 2,
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex:1;
-  justify-content: flex-end;
-  margin: 5px;
-`;
-
 const AddGroup = () => {
   const ModalState = useReactiveVar(modalState);
   const groupName = useRef<string>('');
 
   const handleClose = () => {
     modalState({ ...modalState(),status:false });
-  };
-
-  const handleAddGroup = () => {
-    if(groupName.current.trim() == '') {
-      alert('그룹이름을 입력해주세요 !');
-      return;
-    };
-    if(updateData()?.id && modalState().type === 'update') {
-        const saveArr = Array.from(saveData());
-        let saveArrIndex = saveData().findIndex(e=>e.id === updateData().id);
-        saveArr[saveArrIndex].data = clickData();
-        saveArr[saveArrIndex].title = groupName.current;
-        saveData([...saveArr]);
-      } else saveData([...saveData(),{id: new Date() + Math.random().toString(),title:groupName.current,data:clickData() }]);
-      polygonVar().forEach(e => {
-        if(clickData().findIndex(pv => pv.id == e.id) > -1)  e.polygon.setOptions({fillColor:'#DAE5EC'});
-      });
-      clickData([]);
-      groupName.current = '';
-      updateData({ data: [], id: '', title: '' });
-      modalState({ type:'add',status:false });
-      localStorage.setItem('saveData',JSON.stringify(saveData()));
   };
 
   return (
@@ -77,12 +48,23 @@ const AddGroup = () => {
           </Wrapper>
           <Wrapper>
             <Button variant="text" onClick={handleClose}>취소</Button>
-            <Button variant="text" onClick={handleAddGroup}>{ModalState.type === 'add' ? '등록' : '수정'}</Button>
+            <Button variant="text" onClick={() => handleAddGroup(groupName)}>{ModalState.type === 'add' ? '등록' : '수정'}</Button>
           </Wrapper>
         </Box>
       </Modal>
     </>
   );
 };
+
+
+
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex:1;
+  justify-content: flex-end;
+  margin: 5px;
+`;
 
 export default AddGroup;

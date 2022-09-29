@@ -1,5 +1,10 @@
 import { InMemoryCache,makeVar} from "@apollo/client";
 
+declare global {
+  interface Window {
+    kakao : any;
+  }
+}
 
 export interface ClickData {
   id:number;//행정동 id
